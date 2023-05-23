@@ -12,6 +12,8 @@ Config.NPCJobEarnings             = { min = 15, max = 40 }
 
 Config.OxInventory                = ESX.GetConfig().OxInventory
 
+Config.EnableNPCJob = true
+
 Config.Vehicles = {
 	'adder',
 	'asea',
