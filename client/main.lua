@@ -925,28 +925,32 @@ end, false)
 
 
 
-RegisterCommand('mechanicjob', function()
-	local playerPed = PlayerPedId()
-		if ESX.PlayerData.job and ESX.PlayerData.job.name == 'mechanic' then
-			if NPCOnJob then
-				if GetGameTimer() - NPCLastCancel > 5 * 60000 then
-					StopNPCJob(true)
-					NPCLastCancel = GetGameTimer()
-				else
-					ESX.ShowNotification(TranslateCap('wait_five'), "error")
-				end
-			else
-				if IsPedInAnyVehicle(playerPed, false) and IsVehicleModel(GetVehiclePedIsIn(playerPed, false), `flatbed`) then
-					StartNPCJob()
-				else
-					ESX.ShowNotification(TranslateCap('must_in_flatbed'), "error")
-				end
-			end
-		end
-end, false)
+if Config.EnableNPCJob then
+    RegisterCommand('mechanicjob', function()
+        local playerPed = PlayerPedId()
+            if ESX.PlayerData.job and ESX.PlayerData.job.name == 'mechanic' then
+                if NPCOnJob then
+                    if GetGameTimer() - NPCLastCancel > 5 * 60000 then
+                        StopNPCJob(true)
+                        NPCLastCancel = GetGameTimer()
+                    else
+                        ESX.ShowNotification(TranslateCap('wait_five'), "error")
+                    end
+                else
+                    if IsPedInAnyVehicle(playerPed, false) and IsVehicleModel(GetVehiclePedIsIn(playerPed, false), `flatbed`) then
+                        StartNPCJob()
+                    else
+                        ESX.ShowNotification(TranslateCap('must_in_flatbed'), "error")
+                    end
+                end
+            end
+    end, false)
+
+    RegisterKeyMapping('mechanicjob', 'Togggle NPC Job', 'keyboard', 'F6')
+end
+
 
 RegisterKeyMapping('mechanicMenu', 'Open Mechanic Menu', 'keyboard', 'F6')
-RegisterKeyMapping('mechanicjob', 'Togggle NPC Job', 'keyboard', 'F6')
 
 AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)
 AddEventHandler('esx:onPlayerSpawn', function(spawn) isDead = false end)
